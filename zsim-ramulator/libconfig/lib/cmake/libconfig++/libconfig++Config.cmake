@@ -1,0 +1,7 @@
+set(LIBCONFIG++_FOUND 1)
+set(LIBCONFIG++_VERSION "1.7")
+set(LIBCONFIG++_LIBRARIES "config++")
+set(LIBCONFIG++_LIBRARY_DIRS "${exec_prefix}/lib")
+set(LIBCONFIG++_LDFLAGS "")
+set(LIBCONFIG++_INCLUDE_DIRS "${prefix}/include")
+set(LIBCONFIG++_CFLAGS "")

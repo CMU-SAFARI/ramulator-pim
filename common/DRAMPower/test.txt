@@ -1,0 +1,9 @@
+/mnt/scratch/visio/data/darknet/yolov3/mInput/1Cores/P1/sims/DDR4/DDR4_2400R_FreeRCD/Random/rowrand/chan-0-rank-0.cmdtrace
+./drampower -m memspecs/MICRON_4Gb_DDR4-2400_8bit_A.xml -c /mnt/scratch/visio/data/darknet/yolov3/mInput/1Cores/P1/sims/DDR4/DDR4_2400R_FreeRCD/Random/rowrand/chan-0-rank-0.cmdtrace
+/mnt/scratch/visio/data/darknet/yolov3/mInput/1Cores/P1/sims/DDR4/DDR4_2400R_FreeRCD/Random/rowrand/chan-0-rank-0.cmdtrace
+act_energy:  17842724.25
+pre_energy:  8990685.0
+rd_energy:  631042824.0
+total_energy:  5506504392.75
+avg_power:  64.94
+avg_idd:  48.1037037037

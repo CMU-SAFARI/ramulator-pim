@@ -1,0 +1,14 @@
+prefix=/usr/local/google/home/geraldod/tools/ramulator-pim-infrastructure/zsim-ramulator/libconfig
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libconfig++
+Description: C++ Configuration File Library
+Version: 1.7.2
+URL: http://www.hyperrealm.com/main.php?s=libconfig
+Requires:
+Conflicts:
+Libs: -L${libdir} -lconfig++
+Libs.private:  
+Cflags: -I${includedir}
