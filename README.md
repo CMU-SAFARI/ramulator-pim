@@ -18,6 +18,16 @@ Ramulator simulates the memory accesses of the host cores and the PIM cores by u
 Ramulator contains simple models of out-of-order and in-order cores that can be used for simulation of host and PIM. 
 For the simulation of the PIM cores in the logic layer of 3D-stacked memory, we modified Ramulator to avoid the overheads of the off-chip link.
 
+## Citation
+
+Please cite the following papers if you find this simulation infrastructure useful:
+
+Yoongu Kim, Weikun Yang, and Onur Mutlu, "[Ramulator: A Fast and Extensible DRAM Simulator](https://people.inf.ethz.ch/omutlu/pub/ramulator_dram_simulator-ieee-cal15.pdf)". IEEE Computer Architecture Letters (CAL), March 2015. 
+
+Gagandeep Singh, Stefano Corda, Geraldo Francisco de Oliveira, Juan Gomez-Luna, Giovanni Mariani, Sander Stujik, Onur Mutlu, and Henk Corporaal, "[NAPEL: Near-Memory Computing Application Performance Prediction via Ensemble Learning](https://people.inf.ethz.ch/omutlu/pub/NAPEL-near-memory-computing-performance-prediction-via-ML_dac19.pdf)". Proceedings of the 56th Design Automation Conference (DAC), Las Vegas, NV, USA, June 2019.
+
+## Repository Structure
+
 We point out next the repository structure and some important folders and files.
 ```
 .
@@ -177,11 +187,3 @@ To run the `PIM` simulation:
 ```
 ./ramulator --config Configs/pim.cfg --disable-perf-scheduling true --mode=cpu --stats pim.stats --trace sample_traces/pim/pim-rodiniaBFS.out --core-org=outOrder --number-cores=4 --trace-format=zsim --split-trace=true
 ```
-
-## Citation
-
-Please cite the following papers if you find this simulation infrastructure useful:
-
-Yoongu Kim, Weikun Yang, and Onur Mutlu, "[Ramulator: A Fast and Extensible DRAM Simulator](https://people.inf.ethz.ch/omutlu/pub/ramulator_dram_simulator-ieee-cal15.pdf)". IEEE Computer Architecture Letters (CAL), March 2015. 
-
-Gagandeep Singh, Stefano Corda, Geraldo Francisco de Oliveira, Juan Gomez-Luna, Giovanni Mariani, Sander Stujik, Onur Mutlu, and Henk Corporaal, "[NAPEL: Near-Memory Computing Application Performance Prediction via Ensemble Learning](https://people.inf.ethz.ch/omutlu/pub/NAPEL-near-memory-computing-performance-prediction-via-ML_dac19.pdf)". Proceedings of the 56th Design Automation Conference (DAC), Las Vegas, NV, USA, June 2019.
