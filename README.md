@@ -26,7 +26,7 @@ Yoongu Kim, Weikun Yang, and Onur Mutlu, "[Ramulator: A Fast and Extensible DRAM
 
 Gagandeep Singh, Stefano Corda, Geraldo Francisco de Oliveira, Juan Gomez-Luna, Giovanni Mariani, Sander Stujik, Onur Mutlu, and Henk Corporaal, "[NAPEL: Near-Memory Computing Application Performance Prediction via Ensemble Learning](https://people.inf.ethz.ch/omutlu/pub/NAPEL-near-memory-computing-performance-prediction-via-ML_dac19.pdf)". Proceedings of the 56th Design Automation Conference (DAC), Las Vegas, NV, USA, June 2019.
 
-## Repository Structure
+## Repository Structure and Installation
 
 We point out next the repository structure and some important folders and files.
 ```
