@@ -70,9 +70,9 @@ ALLOBJECTS := ${ALLSOURCES:.cc=.o}
 DEPENDENCIES := ${ALLSOURCES:.cc=.d}
 
 # Warning flags for deprecated files
-DEPWARNFLAGS := -W -pedantic-errors -Wextra -Werror \
+DEPWARNFLAGS := -W -pedantic-errors -Wextra \
              -Wformat -Wformat-nonliteral -Wpointer-arith \
-             -Wcast-align -Wall -Werror
+             -Wcast-align -Wall
 
 # Sum up the flags.
 DEPCXXFLAGS := -O ${DEPWARNFLAGS} ${DBGCXXFLAGS} ${OPTCXXFLAGS} -std=c++0x
@@ -93,7 +93,7 @@ XERCES_LDFLAGS := -L$(XERCES_LIB) -lxerces-c
 # Targets
 ##########################################
 
-all: ${BINARY} src/libdrampower.a parserlib traces
+all: ${BINARY} src/libdrampower.a parserlib
 
 $(BINARY): ${XMLPARSEROBJECTS} ${CLIOBJECTS} src/libdrampower.a
 	$(CXX) ${CXXFLAGS} $(LDFLAGS) -o $@ $^ -Lsrc/ $(XERCES_LDFLAGS) -ldrampower
