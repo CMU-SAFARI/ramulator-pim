@@ -187,3 +187,8 @@ To run the `PIM` simulation:
 ```
 ./ramulator --config Configs/pim.cfg --disable-perf-scheduling true --mode=cpu --stats pim.stats --trace sample_traces/pim/pim-rodiniaBFS.out --core-org=outOrder --number-cores=4 --trace-format=zsim --split-trace=true
 ```
+
+
+## Acknowledgments 
+
+The development of this simulation framework was partially supported by the Semiconductor Research Corporation. We also thank our industrial partners, especially Alibaba, Facebook, Google, Huawei, Intel, Microsoft, and VMware, for their generous donations. 
