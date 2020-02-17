@@ -40,7 +40,7 @@
 # CXX is a predefined variable of GNU Make. Thus, the conditional assignment
 # here may not take effect. If you want to force another compiler here use
 # ':=' instead of '?='.
-CXX ?= g++
+CXX ?= g++-6
 
 ifeq ($(COVERAGE),1)
 	GCOVFLAGS := -fprofile-arcs -ftest-coverage
@@ -52,9 +52,9 @@ endif
 DBGCXXFLAGS ?= -g ${GCOVFLAGS}
 
 # Warning flags
-WARNFLAGS := -W -pedantic-errors -Wextra -Werror \
+WARNFLAGS := -W -pedantic-errors -Wextra \
              -Wformat -Wformat-nonliteral -Wpointer-arith \
-             -Wcast-align -Wconversion -Wall -Werror
+             -Wcast-align -Wconversion -Wall 
 
 CXXFLAGS := -O ${WARNFLAGS} ${DBGCXXFLAGS} ${OPTCXXFLAGS} -std=c++0x
 

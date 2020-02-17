@@ -74,6 +74,12 @@ cd ramulator
 make -j
 ```
 
+Alternatively, to resolve all dependencies on the common libraries, you can use the below commands:
+```
+sh compileramulator.sh
+```
+
+
 ## Generating Traces with ZSim 
 
 There are three steps to generate traces with ZSim:
