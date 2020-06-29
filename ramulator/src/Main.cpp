@@ -251,7 +251,6 @@ int main(int argc, const char *argv[])
       ("expected-limit-insts", po::value<string>(), "specify instructions to run for each thread")
       ("no-DRAM-latency", po::value<string>(), "ideal DRAM with zero DRAM access latency (default option turns this off)")
       ("unlimit-bandwidth", po::value<string>(), "ideal DRAM with unlimited bandwidth")
-      ("rc-trace", po::value<string>(), "trace format is row clone trace")
       ("core-org", po::value<string>(), "core organization")
       ("number-cores", po::value<string>(), "number of pim cores")
       ("trace-format", po::value<string>(), "trace format is either pin, pisa, or zsim")
@@ -304,9 +303,6 @@ int main(int argc, const char *argv[])
     }
     if (vm.count("unlimit-bandwidth")) {
       configs.set("unlimit_bandwidth", vm["unlimit-bandwidth"].as<string>());
-    }
-    if (vm.count("rc-trace")) {
-      configs.set("rc_trace", vm["rc-trace"].as<string>());
     }
     if (vm.count("disable-perf-scheduling")) {
         configs.set_disable_per_scheduling(true);

@@ -36,15 +36,7 @@ int main( int argc, char** argv)
 ////////////////////////////////////////////////////////////////////////////////
 //Apply BFS on a Graph using CUDA
 ////////////////////////////////////////////////////////////////////////////////
-void BFSGraph( int argc, char** argv) 
-{
-    printf("Here \n");
-//i#ifdef ZSIM_TRACE
-//	if(roi_included  == 0){
-//		zsim_roi_begin();
-//		roi_included = 1;
-//	}
-//#endif
+void BFSGraph( int argc, char** argv) {
 
         int no_of_nodes = 0;
         int edge_list_size = 0;
@@ -59,6 +51,8 @@ void BFSGraph( int argc, char** argv)
 	num_omp_threads = atoi(argv[1]);
 	input_f = argv[2];
 	
+	omp_set_num_threads(num_omp_threads);	
+        printf("Number of threads %d \n", omp_get_max_threads());
 	printf("Reading File\n");
 	//Read in Graph from a file
 	fp = fopen(input_f,"r");
@@ -121,33 +115,21 @@ void BFSGraph( int argc, char** argv)
 	
 	printf("Start traversing the tree\n");
 
-//#ifdef ZSIM_TRACE
-//	zsim_PIM_function_begin();
-//        printf("Function Begin \n");
-//#endif	
         printf("Computation Starting \n");
-	    zsim_roi_begin();
+	zsim_roi_begin();
         int k=0;
-#ifdef OPEN
         double start_time = omp_get_wtime();
-#ifdef OMP_OFFLOAD
 #pragma omp target data map(to: no_of_nodes, h_graph_mask[0:no_of_nodes], h_graph_nodes[0:no_of_nodes], h_graph_edges[0:edge_list_size], h_graph_visited[0:no_of_nodes], h_updating_graph_mask[0:no_of_nodes]) map(h_cost[0:no_of_nodes])
         {
-#endif 
-#endif
 	bool stop;
 	do
         {
             //if no thread changes this value then the loop stops
             stop=false;
 
-#ifdef OPEN
-            //omp_set_num_threads(num_omp_threads);
-    #ifdef OMP_OFFLOAD
-    #pragma omp target
-    #endif
-    #pragma omp parallel for 
-#endif 
+            omp_set_num_threads(num_omp_threads);
+    	    #pragma omp target
+            #pragma omp parallel for 
             for(int tid = 0; tid < no_of_nodes; tid++ )
             {
                 zsim_PIM_function_begin();
@@ -166,12 +148,8 @@ void BFSGraph( int argc, char** argv)
                 zsim_PIM_function_end();
             }
 
-#ifdef OPEN
-    #ifdef OMP_OFFLOAD
-    #pragma omp target map(stop)
-    #endif
-    #pragma omp parallel for
-#endif
+    	    #pragma omp target map(stop)
+            #pragma omp parallel for
             for(int tid=0; tid< no_of_nodes ; tid++ )
             {
                 zsim_PIM_function_begin();
@@ -186,16 +164,9 @@ void BFSGraph( int argc, char** argv)
             k++;
         }
 	while(stop);
-#ifdef OPEN
         double end_time = omp_get_wtime();
         printf("Compute time: %lf\n", (end_time - start_time));
-#ifdef OMP_OFFLOAD
         }
-#endif
-#endif
-//#ifdef ZSIM_TRACE
-//	zsim_PIM_function_end();
-//#endif
         zsim_roi_end(); 
 	//Store the result into a file
 	FILE *fpo = fopen("result.txt","w");

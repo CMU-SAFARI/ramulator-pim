@@ -73,8 +73,6 @@ public:
     // trace file format 2:
     // [address(hex)] [R/W]
     bool get_dramtrace_request(long& req_addr, Request::Type& req_type);
-    bool get_rowclone_request(long& bubble_cnt, long& req_addr, Request::Type& req_type);
-
     long expected_limit_insts = 0;
     bool pim_mode_enabled = false;
 
@@ -161,7 +159,6 @@ public:
     // This is set true iff expected number of instructions has been executed or all instructions are executed.
     bool reached_limit = false;
 
-    bool rc_trace = false;
     Window window;
 
     long bubble_cnt;
