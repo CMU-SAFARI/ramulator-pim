@@ -94,7 +94,7 @@ class SplitAddrMemory : public MemObject {
             Address addr = req.lineAddr;
             uint32_t mem = addr % mems.size();
             Address ctrlAddr = addr/mems.size();
-            req.lineAddr = ctrlAddr;
+            //req.lineAddr = ctrlAddr;
             uint64_t respCycle = mems[mem]->access(req);
             req.lineAddr = addr;
             return respCycle;
