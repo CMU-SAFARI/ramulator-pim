@@ -81,8 +81,16 @@ uint64_t MemoryTraces::access(MemReq& req) {
 				pinstr = pinstr - substract[req.coreId];
 				substract[req.coreId] = 0;
 			}
-			if(req.is(MemReq::PREFETCH_TRACE) || req.is(MemReq::PREFETCH)) tracefile << threadIdx[req.coreId] << " " << req.coreId << " " << pinstr << " P " << req.lineAddr << std::endl;
+                        // mybegin
+                        int x = rand()%10;
+                        uint64_t temp = req.lineAddr;
+                        fprintf(fp, "%lx %s %s\n", temp << lineBits, "R", (x > 4? "0" : "1"));
+                        fflush(fp);
+                        // myend
+			/*
+                        if(req.is(MemReq::PREFETCH_TRACE) || req.is(MemReq::PREFETCH)) tracefile << threadIdx[req.coreId] << " " << req.coreId << " " << pinstr << " P " << req.lineAddr << std::endl;
 			else tracefile  << threadIdx[req.coreId] << " " << req.coreId  << " " << pinstr << " L " << req.lineAddr << std::endl;
+                        */
 			previous_instr[req.coreId] = 0;
 		}
 		futex_unlock(&traceLock);        
@@ -103,8 +111,16 @@ uint64_t MemoryTraces::access(MemReq& req) {
 				    pinstr = pinstr - substract[req.coreId];
 				    substract[req.coreId] = 0;
 			    }
+                            // mybegin
+                            int x = rand()%10;
+                            uint64_t temp = req.lineAddr;
+                            fprintf(fp, "%lx %s %s\n", temp << lineBits, "W", (x > 4? "0" : "1"));
+                            fflush(fp);
+                            // myend
+                            /*
 			    if(req.is(MemReq::PREFETCH_TRACE) || req.is(MemReq::PREFETCH)) tracefile << threadIdx[req.coreId]<< " " << req.coreId << " " << pinstr << " P " << req.lineAddr << std::endl;
 			    else  tracefile << threadIdx[req.coreId]<< " " << req.coreId << " " << pinstr << " S " << req.lineAddr << std::endl;
+                            */
 			    previous_instr[req.coreId] = 0;
 		    }
 		    futex_unlock(&traceLock);        

@@ -294,7 +294,12 @@ void LaunchProcess(uint32_t procIdx) {
             }
             int newPers = personality(((unsigned int)-1));
             if ((newPers & ADDR_NO_RANDOMIZE) == 0) panic("personality() call was not honored! old 0x%x new 0x%x", pers, newPers);
+        }        
+        //mybegin
+        for (int i = 0; i < nargs; i++) {
+            info("%s:%d, procIdx: %d, aptrs[%d]=%s", __FILE__, __LINE__, procIdx, i, aptrs[i]);//不需要\n
         }
+        //myend
 
         if (execvp(aptrs[0], (char* const*)aptrs) == -1) {
             perror("Could not exec, killing child");
@@ -457,7 +462,7 @@ int main(int argc, char *argv[]) {
             info("Child %d done (in-loop catch)", cpid);
         }
 
-        if (secsStalled > 120) {
+        if (secsStalled > 20000) {//为了调试，不然经过120s进程就被杀了
             warn("Deadlock detected, killing children");
             sigHandler(SIGINT);
             exit(42);

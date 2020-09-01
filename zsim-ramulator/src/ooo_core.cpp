@@ -587,6 +587,7 @@ inline void OOOCore::bbl(Address bblAddr, BblInfo* bblInfo) {
                     uint32_t size = storeSizes[storeIdx];
                     storeIdx++;
                     // LOIS
+                    // unfiltered trace 是在这里截取的
                     if( pim_trace &&  ptrace){
                         //THREAD_ID PROCESSOR_ID  CYCLE_NUM TYPE  ADDRESS SIZE
                         if(merge_hostTraces){
@@ -608,6 +609,7 @@ inline void OOOCore::bbl(Address bblAddr, BblInfo* bblInfo) {
                         } else total_missing_instructions += previous_instr;
                     }
                     previous_instr = 0;
+                    //info("%s:%d: %lx=%lu", __FILE__, __LINE__, addr, addr);
                     uint64_t reqSatisfiedCycle = l1d->store(addr, dispatchCycle, instrs) + L1D_LAT;
                     cRec.record(curCycle, dispatchCycle, reqSatisfiedCycle);
 

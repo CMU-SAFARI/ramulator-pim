@@ -69,6 +69,7 @@ class MemoryTraces : public MemObject {
 	uint64_t previous_instructions = 0;
 	uint64_t total_instructions = 0;
 
+        FILE *fp;//trace
     public:
         uint64_t access(MemReq& req);
 
@@ -76,7 +77,10 @@ class MemoryTraces : public MemObject {
         
          MemoryTraces(uint32_t _latency, g_string& _name, bool only_offload_, g_string& _outFile) : name(_name), latency(_latency) {
             //LOIS: create the trace file
-            tracefile.open (_outFile.c_str());
+            // tracefile.open (_outFile.c_str());
+            // mybegin
+            fp = fopen(_outFile.c_str(), "w");
+            // myend
             only_offload = only_offload_;
             if(only_offload) print_trace = 0;
             else print_trace = 1;
@@ -94,7 +98,8 @@ class MemoryTraces : public MemObject {
         
         //LOIS
         ~MemoryTraces(){
-            tracefile.close();
+            //tracefile.close();
+            fclose(fp);
         }
 
 	// LOIS

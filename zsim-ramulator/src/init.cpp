@@ -383,6 +383,41 @@ MemObject* BuildMemoryController(Config& config, uint32_t lineSize, uint32_t fre
     return mem;
 }
 
+// my begin
+// unused
+MemObject* BuildHBMController(Config& config, uint32_t lineSize, uint32_t frequency, uint32_t domain, g_string& name) {
+    //Type
+    string type = config.get<const char*>("sys.hbm.type", "DRAMSim");
+    //type = "DRAMSim";//利用DRAMSIM来实现HBM
+
+    //Latency
+    uint32_t latency = (type == "DDR")? -1 : config.get<uint32_t>("sys.hbm.latency", 100); //默认为100
+    
+    MemObject* mem = nullptr;
+    if (type == "Simple") {
+        mem = new SimpleMemory(latency, name);
+    } else if (type == "Hbm") {// 利用ddr memory来实现
+        mem = BuildDDRMemory(config, lineSize, frequency, domain, name, "sys.hbm.");
+    } else if (type == "DRAMSim") {//利用DRAMSIM来实现
+        uint64_t cpuFreqHz = 1000000 * frequency;
+        uint32_t capacity = config.get<uint32_t>("sys.hbm.capacityMB", 16384);
+        // init文件
+        string dramTechIni = config.get<const char*>("sys.hbm.techIni");
+        string dramSystemIni = config.get<const char*>("sys.hbm.systemIni");
+        string outputDir = config.get<const char*>("sys.hbm.outputDir");
+        string traceName = config.get<const char*>("sys.hbm.traceName");
+        //string dramTechIni = "/home/lmy/myfile/DRAMSim2/ini/DDR3_micron_64M_8B_x4_sg15.ini";
+        //string dramSystemIni = "/home/lmy/myfile/DRAMSim2/system.ini";
+        //string outputDir = "/home/lmy/myfile/zsim_test/test/ouputDir";
+        //string traceName = "dramsim_trace";
+        mem = new DRAMSimMemory(dramTechIni, dramSystemIni, outputDir, traceName, capacity, cpuFreqHz, latency, domain, name);
+    }else {
+        panic("Invalid memory controller type %s", type.c_str());
+    }
+    return mem;
+}
+// my end
+
 typedef vector<vector<BaseCache*>> CacheGroup;
 
 CacheGroup* BuildCacheGroup(Config& config, const string& name, bool isTerminal) {
@@ -511,14 +546,21 @@ static void InitSystem(Config& config) {
      * it follows that we have a fully connected tree finishing at the LLC.
      */
 
-    //Build the memory controllers
-    uint32_t memControllers = config.get<uint32_t>("sys.mem.controllers", 1);
-    assert(memControllers > 0);
+    //lmy: Build the dram memory controllers
+    uint32_t dramControllers = config.get<uint32_t>("sys.mem.controllers", 1);
+    assert(dramControllers >= 0);
+
+    //lmy:Build the hbm memory controllers
+    uint32_t hbmControllers = config.get<uint32_t>("sys.hbm.controllers", 0);
+    assert(hbmControllers >= 0);
+
+    //lmy: Build the memory controllers
+    uint32_t memControllers = dramControllers + hbmControllers;
 
     g_vector<MemObject*> mems;
     mems.resize(memControllers);
 
-    for (uint32_t i = 0; i < memControllers; i++) {
+    for (uint32_t i = 0; i < dramControllers; i++) {
         stringstream ss;
         ss << "mem-" << i;
         g_string name(ss.str().c_str());
@@ -526,6 +568,18 @@ static void InitSystem(Config& config) {
         uint32_t domain = i*zinfo->numDomains/memControllers;
         mems[i] = BuildMemoryController(config, zinfo->lineSize, zinfo->freqMHz, domain, name);
     }
+
+    //mybegin
+    for (uint32_t i = dramControllers; i < dramControllers + hbmControllers; i++) {//lmy: 编号范围[dramControllers,hbmControllers+dramControllers)
+        stringstream ss;
+        ss << "mem-" << i;
+        g_string name(ss.str().c_str());
+        //uint32_t domain = nextDomain(); //i*zinfo->numDomains/memControllers; 原本就被注释的
+        //uint32_t domain = i*zinfo->numDomains/memControllers; 我注释的
+        uint32_t domain = i*zinfo->numDomains/(memControllers);
+        mems[i] = BuildHBMController(config, zinfo->lineSize, zinfo->freqMHz, domain, name);
+    }
+    //myend
 
     if (memControllers > 1) {
         bool splitAddrs = config.get<bool>("sys.mem.splitAddrs", true);
