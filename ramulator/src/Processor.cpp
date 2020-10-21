@@ -680,7 +680,7 @@ void Core::tick_inOrder(){
 
         if (!send(req)) return;
         inFlightMemoryAccess++;
-        lock_core = true;
+        //lock_core = true;
     }
 
     //get next request
