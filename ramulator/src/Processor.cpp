@@ -680,20 +680,28 @@ void Core::tick_inOrder(){
 
         if (!send(req)) return;
         inFlightMemoryAccess++;
-        lock_core = true;
+        //lock_core = true;
     }
 
-    if(!rqst_queue.is_empty()){
-        more_reqs = true;
-        bubble_cnt = rqst_queue.bubble_cnt.front();
-        req_addr = rqst_queue.req_addr.front();
-        req_type = rqst_queue.req_type.front();
-        rqst_queue.pop_front();
+    //get next request
+    if(split_trace){
+        unsigned int cpu_id;
+        more_reqs = trace_per_core.get_zsim_request(bubble_cnt, req_addr, req_type,cpu_id);
+        req_addr = memory.page_allocator(req_addr, id);
     }
     else{
-        more_reqs = false;
+        if(!rqst_queue.is_empty()){
+            more_reqs = true;
+            bubble_cnt = rqst_queue.bubble_cnt.front();
+           // cout << "bubble count: " << bubble_cnt << endl;
+            req_addr = rqst_queue.req_addr.front();
+            req_type = rqst_queue.req_type.front();
+            rqst_queue.pop_front();
+        }
+        else{
+            more_reqs = false;
+        }
     }
-
 
     if (!more_reqs) {
        if (!reached_limit) { // if the length of this trace is shorter than expected length, then record it when the whole trace finishes, and set reached_limit to true.
