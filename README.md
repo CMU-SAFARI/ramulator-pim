@@ -79,6 +79,12 @@ Alternatively, to resolve all dependencies on the common libraries, you can use 
 sh compileramulator.sh
 ```
 
+You might need to install boost program options in order to successfully
+build Ramulator. On Ubuntu, this can be done by doing:
+```sh
+sudo apt-get update -y
+sudo apt-get install -y libboost-program-options-dev
+```
 
 ## Generating Traces with ZSim 
 
