@@ -1,3 +1,5 @@
+#!/bin/python3
+
 import os, sys
 from os.path import join as joinpath
 
