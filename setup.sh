@@ -1,9 +1,12 @@
 #!/bin/bash
 
-# For ramulator
-apt-get install libxerces-c-dev
+apt-get update -y
 
-# For zssim-ramulator
+# For Ramulator
+apt-get install -y libxerces-c-dev
+apt-get install -y libboost-program-options-dev
+
+# For ZSim
 apt-get -y install build-essential
 apt-get -y install scons
 apt-get -y install automake
@@ -16,4 +19,5 @@ apt-get -y install byacc
 apt-get -y install libhdf5-dev
 apt-get -y install libelf-dev
 apt-get -y install libxerces-c-dev
+
 ln -s /usr/include/asm-generic /usr/include/asm
