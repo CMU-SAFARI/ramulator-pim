@@ -6,9 +6,9 @@ OBJS := $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SRCS))
 
 
 # Ramulator currently supports g++ 5.1+ or clang++ 3.4+.  It will NOT work with
-#   g++ 4.x due to an internal compiler error when processing lambda functions.
-#CXX := clang++-3.5
-CXX := g++-6
+# g++ 4.x due to an internal compiler error when processing lambda functions.
+# CXX := clang++
+CXX := g++
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S), Linux)
   CXXFLAGS := -O3 -std=c++11 -g -w -Wall -I../common/DRAMPower/src -L../common/DRAMPower/src
