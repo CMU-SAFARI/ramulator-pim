@@ -59,7 +59,8 @@ LIBSOURCES := $(wildcard src/libdrampower/*.cc) \
 			  src/MemBankWiseParams.cc
 
 XMLPARSERSOURCES := $(wildcard src/xmlparser/*.cc)
-ALLSOURCES := $(wildcard src/cli/*.cc) $(wildcard src/*.cc) $(wildcard src/xmlparser/*.cc) $(wildcard src/libdrampower/*.cc)
+ALLSOURCES := $(wildcard src/cli/*.cc) $(wildcard src/*.cc) $(wildcard src/xmlparser/*.cc) \
+	$(wildcard src/libdrampower/*.cc)
 ALLHEADERS := $(wildcard src/*.h) $(wildcard src/xmlparser/*.h) $(wildcard src/libdrampower/*.h)
 
 CLIOBJECTS := ${CLISOURCES:.cc=.o}
@@ -99,11 +100,11 @@ $(BINARY): ${XMLPARSEROBJECTS} ${CLIOBJECTS} src/libdrampower.a
 	$(CXX) ${CXXFLAGS} $(LDFLAGS) -o $@ $^ -Lsrc/ $(XERCES_LDFLAGS) -ldrampower
 
 src/CmdScheduler.o: src/CmdScheduler.cc
-	$(CXX) ${DEPCXXFLAGS} -MMD -MF $(subst .o,.d,$@) -iquote src -o $@ -c $<
+	$(CXX) ${DEPCXXFLAGS} -I$(XERCES_INC) -MMD -MF $(subst .o,.d,$@) -iquote src -o $@ -c $<
 
 # From .cpp to .o. Dependency files are generated here
 %.o: %.cc
-	$(CXX) ${CXXFLAGS} -MMD -MF $(subst .o,.d,$@) -iquote src -o $@ -c $<
+	$(CXX) ${CXXFLAGS} -I$(XERCES_INC) -MMD -MF $(subst .o,.d,$@) -iquote src -o $@ -c $<
 
 src/libdrampower.a: ${LIBOBJECTS}
 	ar -cvr src/libdrampower.a ${LIBOBJECTS}

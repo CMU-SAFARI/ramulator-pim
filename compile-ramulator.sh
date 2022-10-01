@@ -1,4 +1,4 @@
 cd ./common/DRAMPower
-make -j
+XERCES_ROOT=${CONDA_PREFIX} CXX=${CONDA_PREFIX}/bin/x86_64-conda_cos6-linux-gnu-c++ make -j
 cd ../../ramulator
-make -j
+CXX=${CONDA_PREFIX}/bin/x86_64-conda_cos6-linux-gnu-c++ make -j
